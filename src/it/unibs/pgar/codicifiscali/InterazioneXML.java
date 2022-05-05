@@ -47,7 +47,7 @@ public class InterazioneXML {
                 break;
         }
         xmlr.next;
-
+// mi piace la pizza
 
     }
     public void leggiCodiceFiscale(String codice) throws XMLStreamException {
