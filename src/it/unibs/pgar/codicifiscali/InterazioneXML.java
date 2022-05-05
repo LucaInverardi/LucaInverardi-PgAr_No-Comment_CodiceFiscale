@@ -80,7 +80,7 @@ public class InterazioneXML {
             case XMLStreamConstants.START_ELEMENT://Stampa inizio elemento
                 System.out.println("Tag" + xmlr.getLocalName());
                 for (int i = 0; i < xmlr.getAttributeCount(); i++) {
-                    System.out.println(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i),
+                    System.out.printf(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i),
                             xmlr.getAttributeValue(i));
                 }
                 break;

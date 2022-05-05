@@ -1,4 +1,6 @@
-package it.PgAr2022;
+package it.unibs.pgar.codicifiscali;
+import it.unibs.pgar.codicifiscali.Persona;
+
 import java.util.*;
 import java.util.ArrayList;
 public class CodiceFiscale {
@@ -111,7 +113,7 @@ public class CodiceFiscale {
 
     InteragisciXML comuni = new InteragisciXML();
     public String generaCodice(Persona persona) {
-        String codice = null;
+        String codice = "";
         generaNome (persona.getCognome(), generaNome (persona.getNome(), codice));
         int temp = persona.getDataNascita().getAnno()%100;
         codice +=  temp;
