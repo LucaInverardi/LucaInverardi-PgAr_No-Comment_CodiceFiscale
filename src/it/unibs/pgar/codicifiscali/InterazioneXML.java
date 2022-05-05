@@ -35,14 +35,14 @@ public class InterazioneXML {
         }
 
         //Lettura file Persone
-        while(xmlr.hasNext());
-        switch(xmlr.getEventType()){
+        while (xmlr.hasNext()) ;
+        switch (xmlr.getEventType()) {
             case XMLStreamConstants.START_DOCUMENT://Stampa inizio documento
                 System.out.println("Inizio lettura del documento" + "inputPersone.xml");
                 break;
             case XMLStreamConstants.START_ELEMENT://Stampa inizio elemento
                 System.out.println("Tag" + xmlr.getLocalName());
-                for(int i = 0; i <xmlr.getAttributeCount(); i++)
+                for (int i = 0; i < xmlr.getAttributeCount(); i++)
                     System.out.printf(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i),
                             xmlr.getAttributeValue(i));
                 //prendere il contenuto delle persone e spostarle nell'array di persone
@@ -50,17 +50,14 @@ public class InterazioneXML {
             case XMLStreamConstants.CHARACTERS:
                 if (xmlr.getText().trim().length() > 0)
                     System.out.println();
-
-
                 break;
             case XMLStreamConstants.END_ELEMENT://Stampa fine elemento
                 System.out.println("End-Tag" + xmlr.getLocalName());
                 break;
         }
         xmlr.next();
-
-
     }
+
     public void leggiCodiceFiscale(String codice) throws XMLStreamException {
         //Inizializzazione della lettura del file XML di Codice
         XMLInputFactory xmlif = null;
@@ -75,14 +72,14 @@ public class InterazioneXML {
         }
 
         //Lettura file Codici Fiscali
-        while(xmlr.hasNext());
-        switch(xmlr.getEventType()){
+        while (xmlr.hasNext()) ;
+        switch (xmlr.getEventType()) {
             case XMLStreamConstants.START_DOCUMENT://Stampa inizio documento
                 System.out.println("Inizio lettura del documento" + "inputPersone.xml");
                 break;
             case XMLStreamConstants.START_ELEMENT://Stampa inizio elemento
                 System.out.println("Tag" + xmlr.getLocalName());
-                for(int i = 0; i <xmlr.getAttributeCount(); i++) {
+                for (int i = 0; i < xmlr.getAttributeCount(); i++) {
                     System.out.println(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i),
                             xmlr.getAttributeValue(i));
                 }
@@ -95,20 +92,7 @@ public class InterazioneXML {
 
 
     }
-    /*public void leggiComuni(String[8092][2]){
-    //Inizializzazione della lettura del file XML di Comuni
-            XMLInputFactory xmlif = null;
-            XMLStreamReader xmlr = null;
-            try {
-                xmlif = XMLInputFactory.newInstance();
-                xmlr = xmlif.createXMLStreamReader("comuni.xml",
-                        new FileInputStream("comuni.xml"));
-            } catch (Exception e) {
-                System.out.println("Errore nell'inizializzazione del reader:");
-                System.out.println(e.getMessage());
-                }
 
-    }*/
     public String[] leggiCodiciFiscali(String fileName) throws XMLStreamException {
         String[] vettoreCodiciFiscali = new String[N_COD_FISC_FILE];
         int i = 0;
@@ -134,7 +118,7 @@ public class InterazioneXML {
                 case XMLStreamConstants.COMMENT:
                     break; // commento: non fa nulla
                 case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: lo aggiunge al vettoreCodiciFiscali
-                    if (xmlr.getText().trim().length() > 0){ // controlla se il testo non contiene solo spazi
+                    if (xmlr.getText().trim().length() > 0) { // controlla se il testo non contiene solo spazi
                         vettoreCodiciFiscali[i] = xmlr.getText();  //il testo trovato lo aggiunge al vettore al posto i
                     }
                     break;
@@ -145,7 +129,7 @@ public class InterazioneXML {
     }
     //Davide: non avevo visto che avevi già fatto tu il metodo leggicodicifiscali, sorry!
 
-    public void scriviXML(String filename, Persona persona){
+    public void scriviXML(String filename, Persona persona) {
         XMLOutputFactory xmlof = null;
         XMLStreamWriter xmlw = null;
         try {
@@ -156,9 +140,20 @@ public class InterazioneXML {
             System.out.println(WRITER_ERROR);
             System.out.println(e.getMessage());
         }
-
-
-
-
-
     }
+
+    /*public void leggiComuni(String[8092][2]){
+    //Inizializzazione della lettura del file XML di Comuni
+            XMLInputFactory xmlif = null;
+            XMLStreamReader xmlr = null;
+            try {
+                xmlif = XMLInputFactory.newInstance();
+                xmlr = xmlif.createXMLStreamReader("comuni.xml",
+                        new FileInputStream("comuni.xml"));
+            } catch (Exception e) {
+                System.out.println("Errore nell'inizializzazione del reader:");
+                System.out.println(e.getMessage());
+                }
+
+    }*/
+}
