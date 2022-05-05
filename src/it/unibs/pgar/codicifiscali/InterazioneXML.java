@@ -11,7 +11,11 @@ public class InterazioneXML {
     //Matrice di Comuni
     String[][] comuni = new String[8092][2];
 
+    //ArrayList di Persone
     ArrayList<Integer> Persone = new ArrayList<Integer>();
+
+
+
 
     public void leggiPersona(Persona[] persona) throws XMLStreamException {
         //Inizializzazione della lettura del file XML di Persona
@@ -35,19 +39,22 @@ public class InterazioneXML {
             case XMLStreamConstants.START_ELEMENT://Stampa inizio elemento
                 System.out.println("Tag" + xmlr.getLocalName());
                 for(int i = 0; i <xmlr.getAttributeCount(); i++)
-                    System.out.println(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i),
+                    System.out.printf(" => attributo %s->%s%n", xmlr.getAttributeLocalName(i),
                             xmlr.getAttributeValue(i));
-                //prendere atributi delle persone e spostarle nell'array di persone
+                //prendere il contenuto delle persone e spostarle nell'array di persone
                 break;
-            case XMLStreamConstants.CHARACTER:
+            case XMLStreamConstants.CHARACTERS:
+                if (xmlr.getText().trim().length() > 0)
+                    System.out.println();
+
 
                 break;
             case XMLStreamConstants.END_ELEMENT://Stampa fine elemento
                 System.out.println("End-Tag" + xmlr.getLocalName());
                 break;
         }
-        xmlr.next;
-// mi piace la pizza
+        xmlr.next();
+
 
     }
     public void leggiCodiceFiscale(String codice) throws XMLStreamException {
