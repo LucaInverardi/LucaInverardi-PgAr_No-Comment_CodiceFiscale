@@ -61,4 +61,13 @@ public class Persona {
     public void setCodiceFiscale(int codiceFiscale) {
         this.codiceFiscale = codiceFiscale;
     }
+
+    public Persona(String nome, String cognome, char sesso, String comune, Data dataNascita, int codiceFiscale) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.sesso = sesso;
+        this.comune = comune;
+        this.dataNascita = dataNascita;
+        this.codiceFiscale = codiceFiscale;
+    }
 }
