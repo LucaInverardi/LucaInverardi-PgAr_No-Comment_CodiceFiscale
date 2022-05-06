@@ -1,5 +1,6 @@
 package it.unibs.pgar.codicifiscali;
 
+
 import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -224,9 +225,10 @@ public class InterazioneXML {
         xmlw.writeStartElement(CODICI); //scrittura del tag <Codici>
         xmlw.writeStartElement(CODICI_INVALIDI); //scrittura del tag <invalidi>
         stampaCodici(codiciFiscaliInvalidi, xmlw);
-
+        xmlw.writeEndElement(); //chiude l'ultimo tag aperto
         xmlw.writeStartElement(CODICI_SPAIATI);
         stampaCodici(codiciFiscaliSpaiati, xmlw);
+        xmlw.writeEndElement(); //chiusura del tag </codici_spaiati>
         xmlw.writeEndElement(); //chiusura del tag </codici>
     }
 
