@@ -16,6 +16,7 @@ public class InterazioneXML {
     final static String TAG = "Tag";
     final static String FINE_TAG = "End-Tag";
 
+
     //Matrice di Comuni
     String[][] comuni = new String[8092][2];
     //ArrayList di CodiceFiscale
@@ -151,7 +152,34 @@ public class InterazioneXML {
         }
         return xmlr;
     }
+    public void scriviXML(String filename, Persona[] persone, ArrayList<String> codiciFiscaliInvalidi, ArrayList<String> codiciFiscaliSpaiati) {
+        XMLOutputFactory xmlof = null;
+        XMLStreamWriter xmlw = null;
+        try {
+            xmlof = XMLOutputFactory.newInstance();
+            xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(filename), UTF_8);
+            xmlw.writeStartDocument(UTF_8, VERSION);
+        } catch (Exception e) {
+            System.out.println(WRITER_ERROR);
+            System.out.println(e.getMessage());
+        }
+        try { // blocco try per raccogliere eccezioni
+            xmlw.writeStartElement("output"); // scrittura del tag radice <output>
 
+            aggiungiPersoneXML(persone, xmlw); //stampa le persone in formato XML
+
+            aggiungiCodiciXML(codiciFiscaliInvalidi, codiciFiscaliSpaiati, xmlw); //stampa i codici in formato XML
+
+            xmlw.writeEndDocument(); // scrittura della fine del documento </output>
+            xmlw.flush(); // svuota il buffer e procede alla scrittura
+            xmlw.close(); // chiusura del documento e delle risorse impiegate
+
+        } catch (Exception e) { // se c’è un errore viene eseguita questa parte
+            System.out.println("Errore nella scrittura");
+
+        }
+
+    }
 
 
     private void aggiungiPersoneXML(Persona[] persone, XMLStreamWriter xmlw) throws XMLStreamException {

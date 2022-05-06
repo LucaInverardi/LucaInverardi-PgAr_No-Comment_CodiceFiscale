@@ -111,7 +111,7 @@ public class CodiceFiscale {
         return codice;
     }
 
-    InteragisciXML comuni = new InteragisciXML();
+    InterazioneXML comuni = new InterazioneXML();
     public String generaCodice(Persona persona) {
         String codice = "";
         generaNome (persona.getCognome(), generaNome (persona.getNome(), codice));

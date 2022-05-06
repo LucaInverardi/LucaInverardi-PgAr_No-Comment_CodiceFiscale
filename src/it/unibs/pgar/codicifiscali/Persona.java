@@ -62,7 +62,7 @@ public class Persona {
         this.codiceFiscale = codiceFiscale;
     }
 
-    public Persona(String nome, String cognome, char sesso, String comune, Data dataNascita, int codiceFiscale) {
+    public Persona(String nome, String cognome, char sesso, String comune, String dataNascita, String codiceFiscale) {
         this.nome = nome;
         this.cognome = cognome;
         this.sesso = sesso;
