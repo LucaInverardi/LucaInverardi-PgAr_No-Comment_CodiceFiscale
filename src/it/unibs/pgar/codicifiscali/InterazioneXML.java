@@ -1,10 +1,7 @@
 package it.unibs.pgar.codicifiscali;
 
 import javax.print.DocFlavor;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -97,25 +94,21 @@ public class InterazioneXML {
                     }
                 }
                 break;
+            /*case XMLStreamConstants.CHARACTERS:
+                if (xmlr.getText().trim().length() > 0)
+                    System.out.println();
+                break;*/
             case XMLStreamConstants.END_ELEMENT://Stampa fine elemento
                 System.out.println(FINE_TAG + xmlr.getLocalName());
                 break;
         }
         xmlr.next();
-    }
 
+
+    }
     public void leggiComuni(String[][]comuni) throws XMLStreamException {
         //Inizializzazione della lettura del file XML di Comuni
-        XMLInputFactory xmlif = null;
-        XMLStreamReader xmlr = null;
-        try {
-            xmlif = XMLInputFactory.newInstance();
-            xmlr = xmlif.createXMLStreamReader(INPUT_COMUNI,
-                    new FileInputStream(INPUT_COMUNI));
-        } catch (Exception e) {
-            System.out.println(MSG_ERRORE_INIZIALIZZAZIONE);
-            System.out.println(e.getMessage());
-        }
+        XMLStreamReader xmlr = inizializzaXmlStreamReader(INPUT_COMUNI);
 
         //Lettura file Comuni
         while(xmlr.hasNext());
@@ -143,6 +136,20 @@ public class InterazioneXML {
                 break;
         }
         xmlr.next();
+    }
+
+    private XMLStreamReader inizializzaXmlStreamReader(String nomeFile) {
+        XMLInputFactory xmlif = null;
+        XMLStreamReader xmlr = null;
+        try {
+            xmlif = XMLInputFactory.newInstance();
+            xmlr = xmlif.createXMLStreamReader(nomeFile,
+                    new FileInputStream(nomeFile));
+        } catch (Exception e) {
+            System.out.println("Errore nell'inizializzazione del reader:");
+            System.out.println(e.getMessage());
+        }
+        return xmlr;
     }
 
     public String[][] getComuni() {
