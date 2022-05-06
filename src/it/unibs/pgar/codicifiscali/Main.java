@@ -25,7 +25,7 @@ public class Main {
          * output come codice errato*/
 
 
-        interagisciXML.leggiCodiceFiscale(codiciFiscali);
+        interagisciXML.leggiCodiceFiscale();
 
         //genera file xml di output con persone + relativi codici e codici errati
          /* passa l'iesima persona e crea la stampa del file xml

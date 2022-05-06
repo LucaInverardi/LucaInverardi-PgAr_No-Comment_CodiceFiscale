@@ -4,6 +4,7 @@ import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class InterazioneXML {
     //COSTANTI
@@ -37,7 +38,7 @@ public class InterazioneXML {
     //Matrice di Comuni
     String[][] comuni = new String[8092][2];
     //ArrayList di CodiceFiscale
-    ArrayList<String> codicifiscali = new ArrayList<String>();
+    ArrayList<String> codicifiscali = new ArrayList<>();
 
 
     public void leggiPersona(ArrayList<Persona> persone) throws XMLStreamException {
@@ -45,113 +46,99 @@ public class InterazioneXML {
         XMLStreamReader xmlr = inizializzaXmlStreamReader(INPUT_PERSONE);
 
         //Lettura file Persone
-        while(xmlr.hasNext());
-        String nome = NOME;
-        String cognome = COGNOME;
-        String sesso = SESSO;
-        String comune_nascita = COMUNE_NASCITA;
-        String data_nascita = DATA_NASCITA;
+        while(xmlr.hasNext()) {
 
 
-        switch(xmlr.getEventType()){
-            case XMLStreamConstants.START_DOCUMENT://Stampa inizio documento
-                System.out.println(INIZIO_LETTURA_DOCUMENTI + INPUT_PERSONE);
-                break;
-            case XMLStreamConstants.START_ELEMENT://Stampa inizio elemento
-                System.out.println(TAG + xmlr.getLocalName());
-                for(int i = 0; i <xmlr.getAttributeCount(); i++) {
-                    System.out.printf(ASSEGNA_ATTRIBUTO, xmlr.getAttributeLocalName(i),
-                            xmlr.getAttributeValue(i));
-                    if(xmlr.getText().trim().length() > 0){
-                        i--;
-                        continue;
-                    }else {
-                        //Per ogni if aggiungo un contenuto differente
-                        if(xmlr.getLocalName() == nome)
-                            persone.get(i).setNome(xmlr.getText());
-                        if(xmlr.getLocalName() == cognome)
-                            persone.get(i).setCognome(xmlr.getText());
-                        if(xmlr.getLocalName() == sesso)
-                            persone.get(i).setSesso(xmlr.getText().charAt(0));
-                        if(xmlr.getLocalName() == comune_nascita)
-                            persone.get(i).setComune(xmlr.getText());
-                        if(xmlr.getLocalName() == data_nascita)
-                            persone.get(i).setDataNascita(xmlr.getText());
-                          }
+            switch (xmlr.getEventType()) {
+                case XMLStreamConstants.START_DOCUMENT ->//Stampa inizio documento
+                        System.out.println(INIZIO_LETTURA_DOCUMENTI + INPUT_PERSONE);
+                case XMLStreamConstants.START_ELEMENT -> {//Stampa inizio elemento
+                    System.out.println(TAG + xmlr.getLocalName());
+                    for (int i = 0; i < xmlr.getAttributeCount(); i++) {
+                        System.out.printf(ASSEGNA_ATTRIBUTO, xmlr.getAttributeLocalName(i),
+                                xmlr.getAttributeValue(i));
+                        if (xmlr.getText().trim().length() > 0) {
+                            i--;
+                        } else {
+                            //Per ogni if aggiungo un contenuto differente
+                            if (Objects.equals(xmlr.getLocalName(), NOME))
+                                persone.get(i).setNome(xmlr.getText());
+                            if (Objects.equals(xmlr.getLocalName(), COGNOME))
+                                persone.get(i).setCognome(xmlr.getText());
+                            if (Objects.equals(xmlr.getLocalName(), SESSO))
+                                persone.get(i).setSesso(xmlr.getText().charAt(0));
+                            if (Objects.equals(xmlr.getLocalName(), COMUNE_NASCITA))
+                                persone.get(i).setComune(xmlr.getText());
+                            if (Objects.equals(xmlr.getLocalName(), DATA_NASCITA))
+                                persone.get(i).setDataNascita(xmlr.getText());
+                        }
+                    }
                 }
-                break;
-            case XMLStreamConstants.END_ELEMENT://Stampa fine elemento
-                System.out.println(FINE_TAG + xmlr.getLocalName());
-                break;
+                case XMLStreamConstants.END_ELEMENT ->//Stampa fine elemento
+                        System.out.println(FINE_TAG + xmlr.getLocalName());
+            }
+            xmlr.next();
         }
-        xmlr.next();
     }
 
-    public void leggiCodiceFiscale(String codice) throws XMLStreamException {
+    public void leggiCodiceFiscale() throws XMLStreamException {
         //Inizializzazione della lettura del file XML di Codice
         XMLStreamReader xmlr = inizializzaXmlStreamReader(INPUT_CODICEFISCALE);
 
         //Lettura file Codici Fiscali
-        while(xmlr.hasNext());
-        switch(xmlr.getEventType()){
-            case XMLStreamConstants.START_DOCUMENT://Stampa inizio documento
-                System.out.println(INIZIO_LETTURA_DOCUMENTI + INPUT_CODICEFISCALE);
-                break;
-            case XMLStreamConstants.START_ELEMENT://Stampa inizio elemento
-                System.out.println(TAG + xmlr.getLocalName());
-                for(int i = 0; i <xmlr.getAttributeCount(); i++) {
-                    System.out.printf(ASSEGNA_ATTRIBUTO, xmlr.getAttributeLocalName(i),
-                            xmlr.getAttributeValue(i));
-                    if (xmlr.getText().trim().length() > 0) {
-                        i--;
-                        continue;
-                    } else{
-                        codicifiscali.set(i, xmlr.getText());
+        while(xmlr.hasNext()) {
+            switch (xmlr.getEventType()) {
+                case XMLStreamConstants.START_DOCUMENT ->//Stampa inizio documento
+                        System.out.println(INIZIO_LETTURA_DOCUMENTI + INPUT_CODICEFISCALE);
+                case XMLStreamConstants.START_ELEMENT -> {//Stampa inizio elemento
+                    System.out.println(TAG + xmlr.getLocalName());
+                    for (int i = 0; i < xmlr.getAttributeCount(); i++) {
+                        System.out.printf(ASSEGNA_ATTRIBUTO, xmlr.getAttributeLocalName(i),
+                                xmlr.getAttributeValue(i));
+                        if (xmlr.getText().trim().length() > 0) {
+                            i--;
+                        } else {
+                            codicifiscali.set(i, xmlr.getText());
+                        }
                     }
                 }
-                break;
-            case XMLStreamConstants.END_ELEMENT://Stampa fine elemento
-                System.out.println(FINE_TAG + xmlr.getLocalName());
-                break;
+                case XMLStreamConstants.END_ELEMENT ->//Stampa fine elemento
+                        System.out.println(FINE_TAG + xmlr.getLocalName());
+            }
+            xmlr.next();
         }
-        xmlr.next();
-
-
     }
     public void leggiComuni(String[][]comuni) throws XMLStreamException {
         //Inizializzazione della lettura del file XML di Comuni
         XMLStreamReader xmlr = inizializzaXmlStreamReader(INPUT_COMUNI);
 
         //Lettura file Comuni
-        while(xmlr.hasNext());
-        switch(xmlr.getEventType()){
-            case XMLStreamConstants.START_DOCUMENT://Stampa inizio documento
-                System.out.println(INIZIO_LETTURA_DOCUMENTI + INPUT_COMUNI);
-                break;
-            case XMLStreamConstants.START_ELEMENT://Stampa inizio elemento
-                System.out.println(TAG + xmlr.getLocalName());
-                for(int i = 0; i <xmlr.getAttributeCount(); i++) {
-                    System.out.printf(ASSEGNA_ATTRIBUTO, xmlr.getAttributeLocalName(i),
-                            xmlr.getAttributeValue(i));
-                    if (xmlr.getText().trim().length() > 0){
-                        i--;
-                        continue;
-
-                    }else {
-                        for (int j = 0; j < 2; j++)
-                            comuni[i][j] = xmlr.getText();
+        while(xmlr.hasNext()) {
+            switch (xmlr.getEventType()) {
+                case XMLStreamConstants.START_DOCUMENT ->//Stampa inizio documento
+                        System.out.println(INIZIO_LETTURA_DOCUMENTI + INPUT_COMUNI);
+                case XMLStreamConstants.START_ELEMENT -> {//Stampa inizio elemento
+                    System.out.println(TAG + xmlr.getLocalName());
+                    for (int i = 0; i < xmlr.getAttributeCount(); i++) {
+                        System.out.printf(ASSEGNA_ATTRIBUTO, xmlr.getAttributeLocalName(i),
+                                xmlr.getAttributeValue(i));
+                        if (xmlr.getText().trim().length() > 0) {
+                            i--;
+                        } else {
+                            for (int j = 0; j < 2; j++)
+                                comuni[i][j] = xmlr.getText();
+                        }
                     }
                 }
-                break;
-            case XMLStreamConstants.END_ELEMENT://Stampa fine elemento
-                System.out.println(FINE_TAG + xmlr.getLocalName());
-                break;
+                case XMLStreamConstants.END_ELEMENT ->//Stampa fine elemento
+                        System.out.println(FINE_TAG + xmlr.getLocalName());
+            }
+            xmlr.next();
         }
-        xmlr.next();
     }
 
     private XMLStreamReader inizializzaXmlStreamReader(String nomeFile) {
-        XMLInputFactory xmlif = null;
+        XMLInputFactory xmlif;
         XMLStreamReader xmlr = null;
         try {
             xmlif = XMLInputFactory.newInstance();
@@ -164,7 +151,7 @@ public class InterazioneXML {
         return xmlr;
     }
     public void scriviXML(String filename, ArrayList<Persona> persone, ArrayList<String> codiciFiscaliInvalidi, ArrayList<String> codiciFiscaliSpaiati) {
-        XMLOutputFactory xmlof = null;
+        XMLOutputFactory xmlof;
         XMLStreamWriter xmlw = null;
         try {
             xmlof = XMLOutputFactory.newInstance();
@@ -245,9 +232,9 @@ public class InterazioneXML {
 
     private void stampaCodici(ArrayList<String> codiciFiscali, XMLStreamWriter xmlw) throws XMLStreamException {
         xmlw.writeAttribute(NUMERO, Integer.toString(codiciFiscali.size()));
-        for (int i=0; i<codiciFiscali.size(); i++){
+        for (String s : codiciFiscali) {
             xmlw.writeStartElement(CODICE); //apertura tag <codice>
-            xmlw.writeCharacters(codiciFiscali.get(i).toUpperCase()); //contenuto tag
+            xmlw.writeCharacters(s.toUpperCase()); //contenuto tag
             xmlw.writeEndElement(); //chiusura tag </codice>
         }
         xmlw.writeEndElement(); // chiusura di </invalidi o spaiati>
@@ -260,7 +247,7 @@ public class InterazioneXML {
         this.comuni = comuni;
     }
 
-    public void setCodicifiscali(ArrayList<String> codicifiscali) {
+   /* public void setCodicifiscali(ArrayList<String> codicifiscali) {
         this.codicifiscali = codicifiscali;
     }
 
@@ -270,5 +257,5 @@ public class InterazioneXML {
 
     public ArrayList<String> getCodicifiscali() {
         return codicifiscali;
-    }
+    }*/
 }
