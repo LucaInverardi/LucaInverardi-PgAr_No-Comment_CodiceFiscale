@@ -4,8 +4,8 @@ import it.unibs.pgar.codicifiscali.Persona;
 import java.util.*;
 import java.util.ArrayList;
 public class CodiceFiscale {
-    ArrayList<String> codicivalidi = new ArrayList<String>();
-    ArrayList<String> codiciInvalidi = new ArrayList<String>();
+    private ArrayList<String> codicivalidi = new ArrayList<String>();
+    private ArrayList<String> codiciInvalidi = new ArrayList<String>();
 
     char mesi[] = {'A','B','C', 'D', 'E', 'H', 'L', 'M', 'P','R','S','T'};
 
@@ -18,77 +18,131 @@ public class CodiceFiscale {
         return codiciInvalidi;
     }
 
-    //rifare
+    //controlla la validità del codice e lo insierisce nell'array di codici validi o invalidi
     public void controlloCodice(String codice) {
-        boolean temp = false;
-        if (codice.length() != 16) {
+        //controllo della lunghezza
+        if (codice.length()!=16) {
             aggiungiCodiceInvalido(codice);
+            return;
+        }
+        //preso il cognome e il nome controlla che non siano numeri
+        Integer nome[] = {0,0,0,0,0,0};
+        for (int i=0; i<6; i++) {
+            //casting che permettera di lavorare con il codice ASCII
+            nome[i]= (int) codice.charAt(i);
         }
 
-        String nome = codice.substring(0, 5);
-        for (int i = 0; i < nome.length(); i++)
-            for (int j = 0; j < 10; j++)
-                if (nome.substring(i).equals(j)) {
+        for (int i=0; i<6; i++) {
+            for (int j=48; j<58; j++)
+                if (nome[i]==j) {
                     aggiungiCodiceInvalido(codice);
+                    return;
+
                 }
-        String anno = codice.substring(6, 7);
-        for (int i = 0; i < anno.length(); i++)
-            for (int j = 0; j < 10; j++)
-                if (anno.substring(i).equals(j)) {
-                    temp = true;
+        }
+        //anche in questo caso si effettua un casting per lavorare con i codici ASCII
+        Integer anno[]= {0,0};
+        anno[0]=(int)codice.charAt(6);
+        anno[1]=(int)codice.charAt(7);
+        boolean check = false;
+        for (int i=0; i<2; i++) {
+            for (int j=48; j<58; j++)
+                if (anno[i]==j) {
+                    check=true;
                 }
-        if (!temp) {
-            aggiungiCodiceInvalido(codice);
         }
-        temp = false;
-        Character mese = codice.charAt(8);
-        for (int i = 0; i < mesi.length; i++)
-            if (mesi[i] == mese)
-                temp = true;
-        if (!temp) {
+        if (!check) {
             aggiungiCodiceInvalido(codice);
+            return;
+        }
+        //controlla che la lettera del mese corrisponda ad una corretta
+        char mese ='0';
+        mese = codice.charAt(8);
+        check=false;
+        for (int i=0; i<mesi.length; i++) {
+            if (mese==mesi[i])
+                check = true;
+        }
+        if (!check) {
+            aggiungiCodiceInvalido(codice);
+            return;
         }
 
-        Integer giorno = 0;
-        giorno.parseInt(codice.substring(9, 10));
-        if (giorno < 0 || (giorno >= 32 && giorno < 41) || giorno > 71) {
-            aggiungiCodiceInvalido(codice);
-
-        }
-        temp = false;
-        Character luogolettera = codice.charAt(11);
-
-        for (int j = 0; j < 10; j++)
-            if (luogolettera == j)
-                temp = true;
-        if (!temp) {
+        //anche in questo caso si è fatto il casting
+        Integer giorno[] = {0,0};
+        giorno[0]=(int) codice.charAt(9);
+        giorno[1]=(int) codice.charAt(10);
+        /*in giorno[0] vi è la cifra delle decine mentre in giorno[1] vi è quella delle unità
+         (che si controllano solo per le decine 3 e 7)*/
+        if ((giorno[0]<48 ||giorno[0]>55)|| ((giorno[0]==51 && giorno[1]>48)||(giorno[0]==55 &&giorno[1]>48))){
             aggiungiCodiceInvalido(codice);
         }
-        Integer luogonumeri = 0;
-        luogonumeri.parseInt(codice.substring(12, 14));
-        if (luogonumeri < 0 || luogonumeri > 999) {
-            aggiungiCodiceInvalido(codice);
-        }
-        Character finale = codice.charAt(15);
-        for (int j = 0; j < 10; j++)
-            if (finale.equals(j)) {
+        Integer comuneLettera = 0;
+        comuneLettera =(int)codice.charAt(11);
+        for (int i=48; i<58; i++) {
+            if (comuneLettera == i) {
                 aggiungiCodiceInvalido(codice);
+                return;
+
+            }
+        }
+        check=false;
+        //controlla che ciascun numero identificante il comune sia effettivamente un numero
+        Integer comuneNumeri[]= {0,0,0};
+        comuneNumeri[0]=(int)codice.charAt(12);
+        comuneNumeri[1]= (int)codice.charAt(13);
+        comuneNumeri[2]=(int)codice.charAt(14);
+
+        for (int j=48; j<58; j++) {
+            if (comuneNumeri[0]==j)
+                check = true;
+        }
+        if (!check) {
+            aggiungiCodiceInvalido(codice);
+            return;
+        }
+        check=false;
+        for (int j=48; j<58; j++) {
+            if (comuneNumeri[1]==j)
+                check = true;
+        }
+        if (!check) {
+            aggiungiCodiceInvalido(codice);
+            return;
+        }
+        check=false;
+        for (int j=48; j<58; j++) {
+            if (comuneNumeri[2]==j)
+                check = true;
+        }
+        if (!check) {
+            aggiungiCodiceInvalido(codice);
+            return;
+        }
+        check=false;
+        int ultimaLettera=0;
+        ultimaLettera= (int) codice.charAt(15);
+        for (int i=48; i<58; i++) {
+            if (ultimaLettera == i) {
+                aggiungiCodiceInvalido(codice);
+                return;
             }
 
-        aggiungiCodice(codice);
-
+        }
     }
 
 
 
 
 
-    //giusto
+    //dato un nome ti genera la sua parte di codice fiscale. metodo ausiliario
     public static String generaNome (String nome){
         String codice ="";
         for (int i = 0; i < nome.length(); i++)
+            //controllo delle consonanti
             if (nome.charAt(i) != 'A' && nome.charAt(i) != 'E' && nome.charAt(i) != 'I' && nome.charAt(i) != 'O' && nome.charAt(i) != 'U')
                 codice = codice + nome.charAt(i);
+        //in presenza di poche consonanti si prende la prima vocale
         if (nome.length() < 3)
             for (int i = 0; i < nome.length(); i++)
                 if (nome.charAt(i) == 'A' || nome.charAt(i) == 'E' || nome.charAt(i) == 'I' || nome.charAt(i) == 'O' || nome.charAt(i) == 'U') {
@@ -98,8 +152,8 @@ public class CodiceFiscale {
         return codice;
     }
 
-    InterazioneXML comuni = new InterazioneXML();
 
+    //metodo che genera l'ultima lettera del codice fiscale (secondo una tabella). metodo ausiliario
     public static char ultimoCarattere(String codice) {
         boolean pari = false;
         int somma=0;
@@ -415,29 +469,53 @@ public class CodiceFiscale {
         return '0';
     }
 
-    //giusto
+    //istanza che permette di usare i metodi e gli array dichiarati nell'XML
+    InterazioneXML XML = new InterazioneXML();
+    //data una parsona genera un codicefiscale
     public String generaCodice(Persona persona) {
         String codice = "";
+        //il nome e il congome vengono generati con l'ausilio del metodo generaNome
         codice+=generaNome (persona.getCognome());
         codice+=generaNome (persona.getNome());
-        //generaNome (persona.getCognome(), generaNome (persona.getNome(), codice));
+
         //anno
         codice+= persona.getDataNascita().substring(2, 4);
-        //mese:
+        //mese: dato un numero quello corrisponde alla posizione+1 dell'array di mesi (che parte dall'indice 0 fino all'11
         Integer mese=0;
         int Mese = mese.valueOf(persona.getDataNascita().substring(5, 7));
         codice+=mesi[Mese-1];
         Integer giorno =0;
+        //se la persona è femmina al giorno di nascita bisogna aggiungere 40
         if (persona.getSesso() == 'M') {
             codice+=giorno.valueOf(persona.getDataNascita().substring(8, 10));
         }
         else codice+=giorno.valueOf(persona.getDataNascita().substring(8,10))+40;
-        codice+="E801";
         //aggiungere codice del comune in base a quale nome
+        for (int i=0; i<XML.getComuni().length; i++){
+            if (XML.getComune(i, 0).equals(persona.getComune())){
+                codice+=XML.getComune (i, 1);
+            }
+        }
+        //l'ultimo carattere si genera con il metodo ausiliario
         codice+=ultimoCarattere(codice);
         return codice;
     }
 
+    public ArrayList<String> getCodicivalidi() {
+        return codicivalidi;
+    }
+
+    public void setCodicivalidi(ArrayList<String> codicivalidi) {
+        this.codicivalidi = codicivalidi;
+    }
+
+    public ArrayList<String> getCodiciInvalidi() {
+        return codiciInvalidi;
+    }
+
+    public void setCodiciInvalidi(ArrayList<String> codiciInvalidi) {
+        this.codiciInvalidi = codiciInvalidi;
+    }
 }
 
 

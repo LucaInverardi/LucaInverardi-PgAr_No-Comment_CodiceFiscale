@@ -1,6 +1,5 @@
 package it.unibs.pgar.codicifiscali;
 
-
 import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,7 +38,7 @@ public class InterazioneXML {
     //Matrice di Comuni
     String[][] comuni = new String[8092][2];
     //ArrayList di CodiceFiscale
-    ArrayList<String> codicifiscali = new ArrayList<>();
+    private ArrayList<String> codicifiscali = new ArrayList<>();
 
 
     public void leggiPersona(ArrayList<Persona> persone) throws XMLStreamException {
@@ -242,22 +241,26 @@ public class InterazioneXML {
         xmlw.writeEndElement(); // chiusura di </invalidi o spaiati>
     }
 
+
+
     public String[][] getComuni() {
         return comuni;
+    }
+
+    public String getComune(int i, int j){
+        return comuni[i][j];
     }
     public void setComuni(String[][] comuni) {
         this.comuni = comuni;
     }
 
-   /* public void setCodicifiscali(ArrayList<String> codicifiscali) {
+    public ArrayList<String> getCodicifiscali() {
+        return codicifiscali;
+    }
+
+    public void setCodicifiscali(ArrayList<String> codicifiscali) {
         this.codicifiscali = codicifiscali;
     }
 
-    public void setCodicefiscale(int i, String codice) {
-        this.codicifiscali.add(i, codice);
-    }
 
-    public ArrayList<String> getCodicifiscali() {
-        return codicifiscali;
-    }*/
 }
