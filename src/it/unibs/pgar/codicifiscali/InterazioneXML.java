@@ -1,8 +1,9 @@
 package it.unibs.pgar.codicifiscali;
 
-
+import javax.print.DocFlavor;
 import javax.xml.stream.*;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class InterazioneXML {
@@ -30,6 +31,7 @@ public class InterazioneXML {
     final static String CODICI = "Codici";
     final static String CODICE = "codice";
     final static String CODICE_FISCALE = "codice_fiscale";
+
 
 
 
@@ -87,6 +89,7 @@ public class InterazioneXML {
         xmlr.next();
     }
 
+    }
     public void leggiCodiceFiscale(String codice) throws XMLStreamException {
         //Inizializzazione della lettura del file XML di Codice
         XMLStreamReader xmlr = inizializzaXmlStreamReader(INPUT_CODICEFISCALE);
@@ -110,6 +113,10 @@ public class InterazioneXML {
                     }
                 }
                 break;
+            /*case XMLStreamConstants.CHARACTERS:
+                if (xmlr.getText().trim().length() > 0)
+                    System.out.println();
+                break;*/
             case XMLStreamConstants.END_ELEMENT://Stampa fine elemento
                 System.out.println(FINE_TAG + xmlr.getLocalName());
                 break;
@@ -163,6 +170,35 @@ public class InterazioneXML {
         }
         return xmlr;
     }
+    public void scriviXML(String filename, Persona[] persone, ArrayList<String> codiciFiscaliInvalidi, ArrayList<String> codiciFiscaliSpaiati) {
+        XMLOutputFactory xmlof = null;
+        XMLStreamWriter xmlw = null;
+        try {
+            xmlof = XMLOutputFactory.newInstance();
+            xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(filename), UTF_8);
+            xmlw.writeStartDocument(UTF_8, VERSION);
+        } catch (Exception e) {
+            System.out.println(WRITER_ERROR);
+            System.out.println(e.getMessage());
+        }
+        try { // blocco try per raccogliere eccezioni
+            xmlw.writeStartElement("output"); // scrittura del tag radice <output>
+
+            aggiungiPersoneXML(persone, xmlw); //stampa le persone in formato XML
+
+            aggiungiCodiciXML(codiciFiscaliInvalidi, codiciFiscaliSpaiati, xmlw); //stampa i codici in formato XML
+
+            xmlw.writeEndDocument(); // scrittura della fine del documento </output>
+            xmlw.flush(); // svuota il buffer e procede alla scrittura
+            xmlw.close(); // chiusura del documento e delle risorse impiegate
+
+        } catch (Exception e) { // se c’è un errore viene eseguita questa parte
+            System.out.println("Errore nella scrittura");
+
+        }
+
+    }
+
 
     private void aggiungiPersoneXML(Persona[] persone, XMLStreamWriter xmlw) throws XMLStreamException {
         xmlw.writeStartElement(PERSONE); //scrittura del tag <Persone>
