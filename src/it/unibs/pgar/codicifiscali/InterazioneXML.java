@@ -1,10 +1,8 @@
 package it.unibs.pgar.codicifiscali;
 
-import javax.print.DocFlavor;
 import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class InterazioneXML {
@@ -165,7 +163,7 @@ public class InterazioneXML {
         }
         return xmlr;
     }
-    public void scriviXML(String filename, Persona[] persone, ArrayList<String> codiciFiscaliInvalidi, ArrayList<String> codiciFiscaliSpaiati) {
+    public void scriviXML(String filename, ArrayList<Persona> persone, ArrayList<String> codiciFiscaliInvalidi, ArrayList<String> codiciFiscaliSpaiati) {
         XMLOutputFactory xmlof = null;
         XMLStreamWriter xmlw = null;
         try {
@@ -193,36 +191,36 @@ public class InterazioneXML {
         }
 
     }
-    private void aggiungiPersoneXML(Persona[] persone, XMLStreamWriter xmlw) throws XMLStreamException {
+    private void aggiungiPersoneXML(ArrayList<Persona> persone, XMLStreamWriter xmlw) throws XMLStreamException {
         xmlw.writeStartElement(PERSONE); //scrittura del tag <Persone>
-        xmlw.writeAttribute(NUMERO, Integer.toString(persone.length));
-        for (int i = 0; i < persone.length; i++) {
+        xmlw.writeAttribute(NUMERO, Integer.toString(persone.size()));
+        for (int i = 0; i < persone.size(); i++) {
             xmlw.writeStartElement(PERSONA); // scrittura del tag Persona...
             xmlw.writeAttribute(ID, Integer.toString(i)); // ...con attributo id...
 
             xmlw.writeStartElement(NOME); //apertura tag <nome>
-            xmlw.writeCharacters(persone[i].getNome()); //contenuto tag
+            xmlw.writeCharacters(persone.get(i).getNome()); //contenuto tag
             xmlw.writeEndElement(); //chiusura tag </nome>
 
             xmlw.writeStartElement(COGNOME); //apertura tag <cognome>
-            xmlw.writeCharacters(persone[i].getCognome()); //contenuto tag
+            xmlw.writeCharacters(persone.get(i).getCognome()); //contenuto tag
             xmlw.writeEndElement(); //chiusura tag </cognome>
 
             xmlw.writeStartElement(SESSO); //apertura tag <sesso>
-            xmlw.writeCharacters(String.valueOf(persone[i].getSesso())); //contenuto tag
+            xmlw.writeCharacters(String.valueOf(persone.get(i).getSesso())); //contenuto tag
             xmlw.writeEndElement(); //chiusura tag </sesso>
 
             xmlw.writeStartElement(COMUNE_NASCITA); //apertura tag <comune_nascita>
-            xmlw.writeCharacters(persone[i].getComune()); //contenuto tag
+            xmlw.writeCharacters(persone.get(i).getComune()); //contenuto tag
             xmlw.writeEndElement(); //chiusura tag </comune_nascita>
 
             xmlw.writeStartElement(DATA_NASCITA); //apertura tag <data_nascita>
-            xmlw.writeCharacters(persone[i].getDataNascita()); //contenuto tag
+            xmlw.writeCharacters(persone.get(i).getDataNascita()); //contenuto tag
             xmlw.writeEndElement(); //chiusura tag </data_nascita>
 
-            if(persone[i].getCodiceFiscale()!= null){
+            if(persone.get(i).getCodiceFiscale()!= null){
                 xmlw.writeStartElement(CODICE_FISCALE); //apertura tag <codice_fiscale>
-                xmlw.writeCharacters(persone[i].getCodiceFiscale()); //contenuto tag
+                xmlw.writeCharacters(persone.get(i).getCodiceFiscale()); //contenuto tag
                 xmlw.writeEndElement(); //chiusura tag </codice_fiscale>
             }else {
                 xmlw.writeStartElement(CODICE_FISCALE); //apertura tag <codice_fiscale>

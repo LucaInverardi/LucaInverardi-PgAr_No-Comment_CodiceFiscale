@@ -31,7 +31,7 @@ public class Main {
          /* passa l'iesima persona e crea la stampa del file xml
          * una volta finito la 1° stampa, aggiunge gli altri file*/
 
-        interagisciXML.
+        interagisciXML.scriviXML(persone, codiciFiscaliInvalidi, codiciFiscaliSpaiati);
 
     }
 }
