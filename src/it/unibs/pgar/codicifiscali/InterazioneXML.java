@@ -152,10 +152,7 @@ public class InterazioneXML {
         return xmlr;
     }
 
-    public String[][] getComuni() {
-        return comuni;
-    }
-    }
+
 
     private void aggiungiPersoneXML(Persona[] persone, XMLStreamWriter xmlw) throws XMLStreamException {
         xmlw.writeStartElement("Persone"); //scrittura del tag <Persone>
@@ -217,6 +214,9 @@ public class InterazioneXML {
         xmlw.writeEndElement(); // chiusura di </invalidi o spaiati>
     }
 
+    public String[][] getComuni() {
+        return comuni;
+    }
     public void setComuni(String[][] comuni) {
         this.comuni = comuni;
     }
@@ -225,7 +225,6 @@ public class InterazioneXML {
         this.codicifiscali = codicifiscali;
     }
 
-    //questo metodo serve per modificare il set richiede: in che posizione e cosa
     public void setCodicefiscale(int i, String codice) {
         this.codicifiscali.add(i, codice);
     }
