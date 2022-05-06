@@ -11,8 +11,8 @@ public class Persona {
     private String cognome;
     private char sesso;
     private String comune;
-    private Data dataNascita;
-    private int codiceFiscale;
+    private String dataNascita;
+    private String codiceFiscale;
 
     public String getNome() {
         return nome;
@@ -46,23 +46,23 @@ public class Persona {
         this.comune = comune;
     }
 
-    public Data getDataNascita() {
+    public String getDataNascita() {
         return dataNascita;
     }
 
-    public void setDataNascita(Data dataNascita) {
+    public void setDataNascita(String dataNascita) {
         this.dataNascita = dataNascita;
     }
 
-    public int getCodiceFiscale() {
+    public String getCodiceFiscale() {
         return codiceFiscale;
     }
 
-    public void setCodiceFiscale(int codiceFiscale) {
+    public void setCodiceFiscale(String codiceFiscale) {
         this.codiceFiscale = codiceFiscale;
     }
 
-    public Persona(String nome, String cognome, char sesso, String comune, Data dataNascita, int codiceFiscale) {
+    public Persona(String nome, String cognome, char sesso, String comune, String dataNascita, String codiceFiscale) {
         this.nome = nome;
         this.cognome = cognome;
         this.sesso = sesso;
