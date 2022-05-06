@@ -4,6 +4,7 @@ import javax.print.DocFlavor;
 import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class InterazioneXML {
@@ -33,9 +34,7 @@ public class InterazioneXML {
     final static String CODICE_FISCALE = "codice_fiscale";
     final static String VERSIONE = "1.0";
     final static String UTF_8 ="utf-8";
-
-
-
+    final static String OUTPUT = "output";
 
     //Matrice di Comuni
     String[][] comuni = new String[8092][2];
@@ -113,10 +112,6 @@ public class InterazioneXML {
                     }
                 }
                 break;
-            /*case XMLStreamConstants.CHARACTERS:
-                if (xmlr.getText().trim().length() > 0)
-                    System.out.println();
-                break;*/
             case XMLStreamConstants.END_ELEMENT://Stampa fine elemento
                 System.out.println(FINE_TAG + xmlr.getLocalName());
                 break;
@@ -182,7 +177,7 @@ public class InterazioneXML {
             System.out.println(e.getMessage());
         }
         try { // blocco try per raccogliere eccezioni
-            xmlw.writeStartElement("output"); // scrittura del tag radice <output>
+            xmlw.writeStartElement(OUTPUT); // scrittura del tag radice <output>
 
             aggiungiPersoneXML(persone, xmlw); //stampa le persone in formato XML
 
@@ -193,13 +188,11 @@ public class InterazioneXML {
             xmlw.close(); // chiusura del documento e delle risorse impiegate
 
         } catch (Exception e) { // se c’è un errore viene eseguita questa parte
-            System.out.println("Errore nella scrittura");
+            System.out.println(MSG_ERRORE_INIZIALIZZAZIONE);
 
         }
 
     }
-
-
     private void aggiungiPersoneXML(Persona[] persone, XMLStreamWriter xmlw) throws XMLStreamException {
         xmlw.writeStartElement(PERSONE); //scrittura del tag <Persone>
         xmlw.writeAttribute(NUMERO, Integer.toString(persone.length));
