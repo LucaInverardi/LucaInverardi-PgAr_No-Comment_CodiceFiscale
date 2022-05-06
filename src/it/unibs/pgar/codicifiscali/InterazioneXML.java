@@ -31,7 +31,8 @@ public class InterazioneXML {
     final static String CODICI = "Codici";
     final static String CODICE = "codice";
     final static String CODICE_FISCALE = "codice_fiscale";
-
+    final static String VERSIONE = "1.0";
+    final static String UTF_8 ="utf-8";
 
 
 
@@ -89,7 +90,6 @@ public class InterazioneXML {
         xmlr.next();
     }
 
-    }
     public void leggiCodiceFiscale(String codice) throws XMLStreamException {
         //Inizializzazione della lettura del file XML di Codice
         XMLStreamReader xmlr = inizializzaXmlStreamReader(INPUT_CODICEFISCALE);
@@ -176,9 +176,9 @@ public class InterazioneXML {
         try {
             xmlof = XMLOutputFactory.newInstance();
             xmlw = xmlof.createXMLStreamWriter(new FileOutputStream(filename), UTF_8);
-            xmlw.writeStartDocument(UTF_8, VERSION);
+            xmlw.writeStartDocument(UTF_8, VERSIONE);
         } catch (Exception e) {
-            System.out.println(WRITER_ERROR);
+            System.out.println(MSG_ERRORE_INIZIALIZZAZIONE);
             System.out.println(e.getMessage());
         }
         try { // blocco try per raccogliere eccezioni
