@@ -123,8 +123,6 @@ public class InterazioneXML {
                 break;
         }
         xmlr.next();
-
-
     }
 
     private XMLStreamReader inizializzaXmlStreamReader(String nomeFile) {
